@@ -1,0 +1,9 @@
+spring.application.name: wuxiaworldhelper
+
+# logger, to see logback-spring.xml
+logging.level: INFO
+logging.level.app: DEBUG
+
+root.path: /web/github.io/inkeast.com/
+cfg.path: ${root.path}cfg.txt
+posts.source.path: ${root.path}/posts_source/
