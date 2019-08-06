@@ -12,6 +12,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -27,6 +28,9 @@ public class WuxiaWorld {
 
 	@Value("${cfg.path}")
 	private String cfg_path;
+
+	@Autowired
+	private WuxiaworldCrawler wc;
 
 	public void update(String path) throws Exception {
 		update(path, false);
@@ -69,14 +73,12 @@ public class WuxiaWorld {
 
 		String keywords = String.format("%s English version,novel", name);
 
-		WuxiaworldCrawler wc = new WuxiaworldCrawler();
-
 		String index_url = "https://www.wuxiaworld.com/novel/" + path;
 		String date_index = getDate(millis, chapterCount + 100);
 		wc.crawl_index(index_url, name, path, date_index, categories, tags, keywords);
 		log.warn("index finish");
 
-		Document _doc = Jsoup.parse(new File(posts_source_path + path + "\\" + path + ".html"), "UTF-8");
+		Document _doc = Jsoup.parse(new File(posts_source_path + path + "/" + path + ".html"), "UTF-8");
 		Elements es = _doc.select("a");
 		int i = 0;
 		for (Element e : es) {
@@ -89,7 +91,7 @@ public class WuxiaWorld {
 
 				String url = "https://www.wuxiaworld.com" + href;
 
-				String mulu = posts_source_path + path + "\\" + path + "\\";
+				String mulu = posts_source_path + path + "/" + path + "/";
 				String filepath = mulu + filename + ".html";
 				if (recover || !new File(filepath).exists()) {
 					wc.crawl(url, name, path, filename, date, categories, tags, keywords, 3);

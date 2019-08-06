@@ -44,7 +44,7 @@ public class WuxiaworldCrawler {
 			String tags, //
 			String keywords, //
 			int repeat) {
-		String mulu = posts_source_path + path + "\\" + path + "\\";
+		String mulu = posts_source_path + path + "/" + path + "/";
 		try {
 			Document _doc = Jsoup.connect(url).get();
 			String title = _doc.select("div.caption h4").text().replace("\"", "\\\"");
@@ -65,7 +65,7 @@ public class WuxiaworldCrawler {
 				crawl(url, name, path, filename, date, categories, tags, keywords, repeat - 1);
 			} else {
 				log.error(e.getMessage() + " - " + url);
-				String errorPath = posts_source_path + path + "\\" + "error.txt";
+				String errorPath = posts_source_path + path + "/" + "error.txt";
 				FileOutputStream fos;
 				try {
 					fos = new FileOutputStream(errorPath, true);
@@ -97,7 +97,7 @@ public class WuxiaworldCrawler {
 			String categories, //
 			String tags, //
 			String keywords) {
-		String mulu = posts_source_path + path + "\\";
+		String mulu = posts_source_path + path + "/";
 		File muluDir = new File(mulu);
 		if (!muluDir.exists()) {
 			muluDir.mkdirs();

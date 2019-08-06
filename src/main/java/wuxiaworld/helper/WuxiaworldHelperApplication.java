@@ -31,6 +31,9 @@ public class WuxiaworldHelperApplication implements CommandLineRunner {
 			if ("config".equals(args[0])) {
 				cfg.config();
 			} else if (StringUtils.hasText(args[0])) {
+				if (args.length >= 2 || "force".equals(args[1])) {
+					wuxiaWorld.update(args[0], true);
+				}
 				wuxiaWorld.update(args[0]);
 			}
 		}
