@@ -86,6 +86,7 @@ public class WuxiaworldCrawler {
 			"categories: %s\r\n" + //
 			"tags: %s\r\n" + //
 			"keywords: %s\r\n" + //
+			"description: %s\r\n" + //
 			"img: \"/novel/%s/cover.png\"\r\n" + //
 			"---\r\n" + //
 			"%s";
@@ -96,7 +97,8 @@ public class WuxiaworldCrawler {
 			String date, //
 			String categories, //
 			String tags, //
-			String keywords) {
+			String keywords, //
+			String description) {
 		String mulu = posts_source_path + path + "/";
 		File muluDir = new File(mulu);
 		if (!muluDir.exists()) {
@@ -127,7 +129,8 @@ public class WuxiaworldCrawler {
 			try { // index
 				String index = _doc.select("#accordion").outerHtml();
 				index = index.replace("height: 0px;", "").replace("panel-collapse collapse", "panel-collapse");
-				String content = String.format(index_template, name, date, categories, tags, keywords, path, index);
+				String content = String.format(index_template, name, date, categories, tags, keywords, description,
+						path, index);
 				FileOutputStream fos = new FileOutputStream(mulu + path + ".html", false);
 				IOUtils.write(content, fos, "UTF-8");
 				fos.flush();

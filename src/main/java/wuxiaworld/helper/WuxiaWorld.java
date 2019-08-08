@@ -72,10 +72,10 @@ public class WuxiaWorld {
 						name : "[[\"" + String.join("\"],[\"", novel.getTags()) + "\"]]";
 
 		String keywords = String.format("%s English version,novel", name);
-
+		String description = novel.getSynopsis();
 		String index_url = "https://www.wuxiaworld.com/novel/" + path;
 		String date_index = getDate(millis, chapterCount + 100);
-		wc.crawl_index(index_url, name, path, date_index, categories, tags, keywords);
+		wc.crawl_index(index_url, name, path, date_index, categories, tags, keywords, description);
 		log.warn("index finish");
 
 		Document _doc = Jsoup.parse(new File(posts_source_path + path + "/" + path + ".html"), "UTF-8");
