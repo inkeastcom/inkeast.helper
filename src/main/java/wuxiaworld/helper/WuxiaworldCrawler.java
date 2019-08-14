@@ -47,6 +47,7 @@ public class WuxiaworldCrawler {
 		String mulu = posts_source_path + path + "/" + path + "/";
 		try {
 			Document _doc = Jsoup.connect(url).get();
+			_doc.select("noscript").remove();
 			String title = _doc.select("div.caption h4").text().replace("\"", "\\\"");
 			String content = _doc.select("div.fr-view").outerHtml();
 			String text = String.format(template, title, date, categories, tags, keywords, path, name, content);

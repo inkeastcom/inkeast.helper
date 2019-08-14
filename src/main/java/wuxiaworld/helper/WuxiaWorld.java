@@ -62,7 +62,11 @@ public class WuxiaWorld {
 			time = time.substring(0, time.indexOf("."));
 		}
 		long millis = Long.parseLong(time);
-		millis *= 1000;
+		if (millis < 0) {
+			millis = System.currentTimeMillis();
+		} else {
+			millis *= 1000;
+		}
 		int chapterCount = novel.getChapterCount();
 		String categories = //
 				(novel.getGenres() == null || novel.getGenres().length == 0) ? //
@@ -72,7 +76,7 @@ public class WuxiaWorld {
 						name : "[[\"" + String.join("\"],[\"", novel.getTags()) + "\"]]";
 
 		String keywords = String.format("%s English version,novel", name);
-		String description = novel.getSynopsis();
+		String description = novel.getSynopsis().replace("\"", "'").replace(":", "");
 		String index_url = "https://www.wuxiaworld.com/novel/" + path;
 		String date_index = getDate(millis, chapterCount + 100);
 		wc.crawl_index(index_url, name, path, date_index, categories, tags, keywords, description);
