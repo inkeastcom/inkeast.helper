@@ -32,8 +32,10 @@ public class WuxiaworldCrawler {
 			"tags: %s\r\n" + //
 			"keywords: %s\r\n" + //
 			"---\r\n" + //
+			"{%% raw %%}\r\n" + //
 			"<p> <strong><a href=\"/novel/%s/\">%s</a></strong></p>\r\n" + //
-			"%s";
+			"%s\r\n" + //
+			"{%% endraw %%}";
 
 	public void crawl(String url, //
 			String name, //
@@ -65,7 +67,7 @@ public class WuxiaworldCrawler {
 			if (repeat > 1) {
 				crawl(url, name, path, filename, date, categories, tags, keywords, repeat - 1);
 			} else {
-				log.error(e.getMessage() + " - " + url);
+				log.error(e.getMessage() + " - " + url, e);
 				String errorPath = posts_source_path + path + "/" + "error.txt";
 				FileOutputStream fos;
 				try {
@@ -90,7 +92,9 @@ public class WuxiaworldCrawler {
 			"description: %s\r\n" + //
 			"img: \"/novel/%s/cover.png\"\r\n" + //
 			"---\r\n" + //
-			"%s";
+			"{%% raw %%}\r\n" + //
+			"%s\r\n" + //
+			"{%% endraw %%}";
 
 	public void crawl_index(String url, //
 			String name, //
@@ -137,10 +141,10 @@ public class WuxiaworldCrawler {
 				fos.flush();
 				fos.close();
 			} catch (Exception e) {
-				log.error(e.getMessage() + " - " + url);
+				log.error(e.getMessage() + " - " + url, e);
 			}
 		} catch (IOException e) {
-			log.error(e.getMessage() + " - " + url);
+			log.error(e.getMessage() + " - " + url, e);
 		}
 	}
 }
