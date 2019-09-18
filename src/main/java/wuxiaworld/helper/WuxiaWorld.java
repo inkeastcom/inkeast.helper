@@ -23,23 +23,23 @@ public class WuxiaWorld {
 
 	private static Log log = LogFactory.getLog(WuxiaWorld.class);
 
+	@Value("${root.path}")
+	private String root_path;
+
 	@Value("${posts.source.path}")
 	private String posts_source_path;
-
-	@Value("${cfg.path}")
-	private String cfg_path;
 
 	@Autowired
 	private WuxiaworldCrawler wc;
 
-	public void update(String path) throws Exception {
-		update(path, false);
+	public void update(String domain, String path) throws Exception {
+		update(domain, path, false);
 	}
 
-	public void update(String path,
+	public void update(String domain, String path,
 			// 是否覆盖旧版本
 			boolean recover) throws Exception {
-
+		String cfg_path = String.format("%s%s.json", root_path, domain);
 		String json = IOUtils.toString(new FileInputStream(cfg_path));
 		Novels novels = new Gson().fromJson(json, Novels.class);
 
@@ -77,7 +77,7 @@ public class WuxiaWorld {
 
 		String keywords = String.format("%s English version,novel", name);
 		String description = novel.getSynopsis().replace("\"", "'").replace(":", "");
-		String index_url = "https://www.wuxiaworld.com/novel/" + path;
+		String index_url = "https://" + domain + "/novel/" + path;
 		String date_index = getDate(millis, chapterCount + 100);
 		wc.crawl_index(index_url, name, path, date_index, categories, tags, keywords, description);
 		log.warn("index finish");
@@ -93,7 +93,7 @@ public class WuxiaWorld {
 				int s = href.lastIndexOf("/");
 				String filename = href.substring(s + 1);
 
-				String url = "https://www.wuxiaworld.com" + href;
+				String url = "https://" + domain + href;
 
 				String mulu = posts_source_path + path + "/" + path + "/";
 				String filepath = mulu + filename + ".html";

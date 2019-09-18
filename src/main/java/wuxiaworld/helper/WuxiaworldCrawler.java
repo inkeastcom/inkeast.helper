@@ -15,6 +15,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 @Component
 public class WuxiaworldCrawler {
@@ -30,7 +31,7 @@ public class WuxiaworldCrawler {
 			"date: \"%s\"\r\n" + //
 			"categories: %s\r\n" + //
 			"tags: %s\r\n" + //
-			"keywords: %s\r\n" + //
+			"keywords: \"%s\"\r\n" + //
 			"---\r\n" + //
 			"{%% raw %%}\r\n" + //
 			"<p> <strong><a href=\"/novel/%s/\">%s</a></strong></p>\r\n" + //
@@ -88,7 +89,7 @@ public class WuxiaworldCrawler {
 			"date: \"%s\"\r\n" + //
 			"categories: %s\r\n" + //
 			"tags: %s\r\n" + //
-			"keywords: %s\r\n" + //
+			"keywords: \"%s\"\r\n" + //
 			"description: %s\r\n" + //
 			"img: \"/novel/%s/cover.png\"\r\n" + //
 			"---\r\n" + //
@@ -113,6 +114,9 @@ public class WuxiaworldCrawler {
 			Document _doc = Jsoup.connect(url).get();
 			try { // cover
 				String imgurl = _doc.select("img.media-object").attr("src");
+				imgurl = StringUtils.isEmpty(imgurl) //
+						? _doc.select("img.m-tb-30").attr("src") //
+						: imgurl;
 				int ind = imgurl.indexOf("?");
 				if (ind > 0) {
 					imgurl = imgurl.substring(0, ind);

@@ -14,13 +14,13 @@ import org.springframework.stereotype.Component;
 public class WuxiaWorldCfg {
 
 	private String all_url = //
-			"https://www.wuxiaworld.com/api/novels/search";
+			"https://%s/api/novels/search";
 	private String post_json = "{\"count\":100}";
-	private String cfg_path = "/web/github.io/inkeast.com/cfg.txt";
+	private String cfg_path = "/web/github.io/inkeast.com/%s.json";
 
-	public void config() throws Exception {
+	public void config(String domain) throws Exception {
 
-		URL u = new URL(all_url);
+		URL u = new URL(String.format(all_url, domain));
 		HttpURLConnection conn = (HttpURLConnection) u.openConnection();
 		conn.addRequestProperty("User-agent", "Mozilla/4.0");
 		conn.addRequestProperty("content-type", "application/json");
@@ -33,7 +33,7 @@ public class WuxiaWorldCfg {
 		out.close();
 
 		InputStream in = conn.getInputStream();
-		OutputStream o = new FileOutputStream(cfg_path, false);
+		OutputStream o = new FileOutputStream(String.format(cfg_path, domain), false);
 		IOUtils.copy(in, o);
 	}
 }

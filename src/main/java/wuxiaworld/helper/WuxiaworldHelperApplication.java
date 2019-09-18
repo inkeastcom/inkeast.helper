@@ -28,13 +28,14 @@ public class WuxiaworldHelperApplication implements CommandLineRunner {
 		if (args == null || args.length == 0) {
 			log.error("no args");
 		} else {
-			if ("config".equals(args[0])) {
-				cfg.config();
-			} else if (StringUtils.hasText(args[0])) {
-				if (args.length >= 2 && "force".equals(args[1])) {
-					wuxiaWorld.update(args[0], true);
+			if ("config".equals(args[0]) && StringUtils.hasText(args[1])) {
+				cfg.config(args[1]);
+			} else if (StringUtils.hasText(args[0]) //
+					&& StringUtils.hasText(args[1])) {
+				if (args.length >= 3 && "force".equals(args[2])) {
+					wuxiaWorld.update(args[0], args[1], true);
 				}
-				wuxiaWorld.update(args[0]);
+				wuxiaWorld.update(args[0], args[1]);
 			}
 		}
 	}
