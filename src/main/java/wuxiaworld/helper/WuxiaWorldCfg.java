@@ -8,15 +8,17 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import org.apache.commons.io.IOUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
 public class WuxiaWorldCfg {
 
-	private String all_url = //
-			"https://%s/api/novels/search";
+	private String all_url = "https://%s/api/novels/search";
 	private String post_json = "{\"count\":100}";
-	private String cfg_path = "/web/github.io/inkeast.com/%s.json";
+
+	@Value("${docs.path}")
+	private String docsPath;
 
 	public void config(String domain) throws Exception {
 
@@ -32,6 +34,7 @@ public class WuxiaWorldCfg {
 		out.flush();
 		out.close();
 
+		String cfg_path = docsPath + "%s.json";
 		InputStream in = conn.getInputStream();
 		OutputStream o = new FileOutputStream(String.format(cfg_path, domain), false);
 		IOUtils.copy(in, o);

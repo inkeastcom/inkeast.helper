@@ -23,8 +23,8 @@ public class WuxiaWorld {
 
 	private static Log log = LogFactory.getLog(WuxiaWorld.class);
 
-	@Value("${root.path}")
-	private String root_path;
+	@Value("${docs.path}")
+	private String docsPath;
 
 	@Value("${posts.source.path}")
 	private String posts_source_path;
@@ -39,7 +39,7 @@ public class WuxiaWorld {
 	public void update(String domain, String path,
 			// 是否覆盖旧版本
 			boolean recover) throws Exception {
-		String cfg_path = String.format("%s%s.json", root_path, domain);
+		String cfg_path = String.format("%s%s.json", docsPath, domain);
 		String json = IOUtils.toString(new FileInputStream(cfg_path));
 		Novels novels = new Gson().fromJson(json, Novels.class);
 

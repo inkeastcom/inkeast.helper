@@ -4,5 +4,6 @@ spring.application.name: wuxiaworldhelper
 logging.level: INFO
 logging.level.app: DEBUG
 
-root.path: /web/github.io/inkeast.com/
-posts.source.path: ${root.path}/posts_source/
+root.path: /Volumes/web/github.io/inkeast.com/
+posts.source.path: ${root.path}posts_source/
+docs.path: ${root.path}docs/
